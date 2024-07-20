@@ -1,0 +1,57 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: Cloudformation for IAM User
+
+Resources:
+
+  # Cloudformation Admin Access Group
+  MyGroup:
+    Type: AWS::IAM::Group
+    Properties:
+      GroupName: CFNAdminGroup
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/AdministratorAccess
+
+  # New User to be added to Group
+  MyIAMUser:
+    Type: AWS::IAM::User
+    Properties:
+      UserName: PatchezCFN
+
+  # Adds User to Admin Group
+  addUserToGroup:
+    Type: AWS::IAM::UserToGroupAddition
+    Properties:
+      GroupName: CFNAdminGroup
+      Users:
+        - !Ref MyIAMUser
+
+  # Role for EC2
+  MyRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: EC2AccessRole
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+                - ec2.amazonaws.com
+            Action:
+              - sts:AssumeRole
+
+  # Policy attached to Role          
+  MyRolePolicy:
+    Type: AWS::IAM::Policy
+    Properties:
+      PolicyName: EC2AccessPolicy
+      PolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Action: 
+              - s3:GetObject
+            Resource: "*"
+      Roles:
+        - !Ref MyRole
+

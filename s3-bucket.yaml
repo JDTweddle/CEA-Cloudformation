@@ -1,0 +1,10 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: Cloudformation template for S3 Bucket
+
+Resources:
+
+# Cloudformation S3 Bucket
+  S3Bucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: patchez-s3-bucket-yaml
