@@ -7,7 +7,7 @@ Resources:
   MyS3Bucket:
     Type: AWS::S3::Bucket
     Properties:
-      BucketName: test-static-website-patchez
+      BucketName: test-static-website
       WebsiteConfiguration: 
         IndexDocument: index.html
       PublicAccessBlockConfiguration:
